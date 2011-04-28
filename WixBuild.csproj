@@ -88,137 +88,137 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "AssemblyInfo.cs"
+                    RelPath = "src\AssemblyInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "BuildManager.cs"
+                    RelPath = "src\BuildManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "BuildSession.cs"
+                    RelPath = "src\BuildSession.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "CommandLineMain.cs"
+                    RelPath = "src\CommandLineMain.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "CommandLineParser.cs"
+                    RelPath = "src\CommandLineParser.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "FileHarvest.cs"
+                    RelPath = "src\FileHarvest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Wix.cs"
+                    RelPath = "src\Wix.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixComponent.cs"
+                    RelPath = "src\WixUtil.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixComponentGroup.cs"
+                    RelPath = "src\WixTags\WixComponent.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixComponentGroupRef.cs"
+                    RelPath = "src\WixTags\WixComponentGroup.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixComponentRef.cs"
+                    RelPath = "src\WixTags\WixComponentGroupRef.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixDirectory.cs"
+                    RelPath = "src\WixTags\WixComponentRef.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixDirectoryRef.cs"
+                    RelPath = "src\WixTags\WixDirectory.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixEnvironment.cs"
+                    RelPath = "src\WixTags\WixDirectoryRef.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixFeature.cs"
+                    RelPath = "src\WixTags\WixEnvironment.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixFile.cs"
+                    RelPath = "src\WixTags\WixFeature.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixInstallExecuteSequence.cs"
+                    RelPath = "src\WixTags\WixFile.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixMedia.cs"
+                    RelPath = "src\WixTags\WixInstallExecuteSequence.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixPackage.cs"
+                    RelPath = "src\WixTags\WixMedia.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixProduct.cs"
+                    RelPath = "src\WixTags\WixPackage.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixProperty.cs"
+                    RelPath = "src\WixTags\WixProduct.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixShortcut.cs"
+                    RelPath = "src\WixTags\WixProperty.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixTag.cs"
+                    RelPath = "src\WixTags\WixShortcut.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixUIRef.cs"
+                    RelPath = "src\WixTags\WixTag.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixUpgrade.cs"
+                    RelPath = "src\WixTags\WixUIRef.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixUpgradeVersion.cs"
+                    RelPath = "src\WixTags\WixUpgrade.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "WixUtil.cs"
+                    RelPath = "src\WixTags\WixUpgradeVersion.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
