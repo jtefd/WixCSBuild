@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Exe"
                 PreBuildEvent = ""
-                PostBuildEvent = 'mkdir "$(TargetDir)dist"&#xd;&#xa;mkdir "$(TargetDir)dist\wix"&#xd;&#xa;copy "$(TargetPath)" "$(TargetDir)dist"&#xd;&#xa;copy "$(ProjectDir)WixUI_Custom.wxs" "$(TargetDir)dist"&#xd;&#xa;xcopy /Y /E "$(ProjectDir)lib\wix" "$(TargetDir)dist\wix"&#xd;&#xa;'
+                PostBuildEvent = 'mkdir "$(TargetDir)dist"&#xd;&#xa;mkdir "$(TargetDir)dist\wix"&#xd;&#xa;copy "$(TargetPath)" "$(TargetDir)dist"&#xd;&#xa;copy "$(ProjectDir)etc\WixUI_Custom.wxs" "$(TargetDir)dist"&#xd;&#xa;xcopy /Y /E "$(ProjectDir)lib\wix" "$(TargetDir)dist\wix"&#xd;&#xa;'
                 RootNamespace = "WixBuild"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -85,6 +85,10 @@
             <Include>
                 <File
                     RelPath = "App.ico"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "README.txt"
                     BuildAction = "Content"
                 />
                 <File
