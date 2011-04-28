@@ -25,38 +25,33 @@ namespace WixBuild
 					ShowHelp();
 					Environment.Exit(0);
 				}
-		
-				string src_directory = cli.GetOpt("source");
-				string package = cli.GetOpt("package");
-				string version = cli.GetOpt("version");
 
-				if (File.Exists(version))
-				{
-					version = FileVersionInfo.GetVersionInfo(version).FileVersion;
-				}
+				BuildConfig buildConfig = new BuildConfig();
 
-				string manufacturer;
+				buildConfig.Directory = cli.GetOpt("source");
+				buildConfig.PackageName = cli.GetOpt("package");
+				buildConfig.Version = cli.GetOpt("version");
 
 				if (cli.Exists("author"))
 				{
-					manufacturer = cli.GetOpt("author");
+					buildConfig.Manufacturer = cli.GetOpt("author");
 				}
 				else
 				{
-					manufacturer = Environment.UserName;
+					buildConfig.Manufacturer = Environment.UserName;
 				}
-
-				BuildManager builder = new BuildManager(package, manufacturer, src_directory, version);
 
 				if (cli.Exists("path"))
 				{
-					builder.Path = true;
+					buildConfig.Path = true;
 				}
 
 				if (cli.Exists("shortcut"))
 				{
-					builder.Shortcut = cli.GetOpt("shortcut");
+					buildConfig.Shortcut = cli.GetOpt("shortcut");
 				}
+
+				BuildManager builder = new BuildManager(buildConfig);
 
 				if (cli.Exists("verbose"))
 				{
@@ -67,7 +62,7 @@ namespace WixBuild
 
 				if (cli.Exists("tc-build-num"))
 				{
-					Console.WriteLine("##teamcity[buildNumber '{0}']", builder.Version);
+					Console.WriteLine("##teamcity[buildNumber '{0}']", buildConfig.Version);
 				}
 			}
 			catch (Exception e)

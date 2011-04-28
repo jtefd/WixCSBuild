@@ -12,107 +12,19 @@ namespace WixBuild
 		private Wix wix;
 		private DirectoryInfo build_dir;
 		private string name;
-		private string package_name;
-		private string manufacturer;
-		private string directory;
-		private string version;
-		private string[] features;
-		private bool path;
-		private string shortcut;
 
-		public BuildManager(string package_name, string manufacturer, string directory, string version)
-		{
-			PackageName = package_name;
-			Manufacturer = manufacturer;
-			Directory = directory;
-			Version = version;
-		}
+		private BuildConfig buildConfig;
 
-		public string PackageName
+		public BuildManager(BuildConfig buildConfig)
 		{
-			get
-			{
-				return package_name;
-			}
-			set
-			{
-				package_name = value;
-			}
-		}
-
-		public string PackageFullTitle
-		{
-			get
-			{
-				return string.Format("{0} {1}", PackageName, Version);
-			}
-		}
-
-		public string Manufacturer
-		{
-			get
-			{
-				return manufacturer;
-			}
-			set
-			{
-				manufacturer = value;
-			}
-		}
-
-		public string Directory
-		{
-			get
-			{
-				return directory;
-			}
-			set
-			{	
-				directory = value;
-			}	
-		}
-
-		public string Version
-		{
-			get
-			{
-				return version;
-			}
-			set
-			{
-				version = value;
-			}
-		}
-
-		public bool Path
-		{
-			get
-			{
-				return path;
-			}
-			set
-			{
-				path = value;
-			}
-		}
-
-		public string Shortcut
-		{
-			get
-			{
-				return shortcut;
-			}
-			set
-			{
-				shortcut = value;
-			}
+			this.buildConfig = buildConfig;
 		}
 
 		public void build()
 		{
 			wix = new Wix();
 
-			DirectoryInfo dirinfo = new DirectoryInfo(directory);
+			DirectoryInfo dirinfo = new DirectoryInfo(buildConfig.Directory);
 
 			name = dirinfo.Name;
 
@@ -127,11 +39,17 @@ namespace WixBuild
 
 			Console.WriteLine("Using temporary directory: {0}", build_dir.FullName);
 			
-			WixProduct product = new WixProduct(PackageFullTitle, manufacturer, WixUtil.ConvertVersion(version), WixUtil.GenUpgradeGuid(PackageName));
+			WixProduct product = new WixProduct(
+				buildConfig.PackageFullTitle,
+				buildConfig.Manufacturer, 
+				WixUtil.ConvertVersion(buildConfig.Version), 
+				WixUtil.GenUpgradeGuid(buildConfig.PackageName)
+			);
+			
 			product.AddPackage(new WixPackage(true));
 			product.AddMedia(new WixMedia(1, "product.cab", true));
 
-			WixDirectory app_root = WixDirectory.CreateApplicationRoot(PackageName);
+			WixDirectory app_root = WixDirectory.CreateApplicationRoot(buildConfig.PackageName);
 			WixDirectory pfiles = WixDirectory.ProgramFiles;
 			WixDirectory smenu = WixDirectory.StartMenu;
 			WixDirectory target = WixDirectory.Target;
@@ -140,7 +58,7 @@ namespace WixBuild
 			target.AddDirectory(pfiles);
 			target.AddDirectory(smenu);
 
-			WixDirectory start_menu_dir = new WixDirectory(PackageFullTitle);
+			WixDirectory start_menu_dir = new WixDirectory(buildConfig.PackageFullTitle);
 
 			smenu.AddDirectory(start_menu_dir);
 
@@ -152,7 +70,7 @@ namespace WixBuild
 
 			WixComponentGroup comp_group = harvest.ProcessDirectory(app_root_ref);
 
-			if (Path)
+			if (buildConfig.Path)
 			{
 				WixComponent env_comp = new WixComponent("env_path");
 				env_comp.AddGuid("Guid");
@@ -163,9 +81,9 @@ namespace WixBuild
 				app_root_ref.AddComponent(env_comp);
 			}
 
-			if (Shortcut != null)
+			if (buildConfig.Shortcut != null)
 			{
-				FileInfo shortcut_file = new FileInfo(Shortcut);
+				FileInfo shortcut_file = new FileInfo(buildConfig.Shortcut);
 
 				if (shortcut_file.Exists)
 				{
@@ -177,7 +95,7 @@ namespace WixBuild
 						{
 							id = element.GetAttribute("Id");
 
-							WixShortcut shortcut = new WixShortcut(new FileInfo(Shortcut).Name, new FileInfo(Shortcut).Name, start_menu_dir.Id, "INSTALLDIR", false);
+							WixShortcut shortcut = new WixShortcut(new FileInfo(buildConfig.Shortcut).Name, new FileInfo(buildConfig.Shortcut).Name, start_menu_dir.Id, "INSTALLDIR", false);
 
 							element.AppendChild(shortcut.GetTag());
 						}
@@ -188,23 +106,16 @@ namespace WixBuild
 			product.AddDirectoryRef(app_root_ref);
 			product.AddComponentGroup(comp_group);
 
-			if (features == null)
-			{
-				WixFeature feature = new WixFeature("Main", 1);
-				feature.AddComponentGroupRef(comp_group.ComponentGroupRef);
+			WixFeature feature = new WixFeature("Main", 1);
+			feature.AddComponentGroupRef(comp_group.ComponentGroupRef);
 
-				product.AddFeature(feature);
-			}
-			else
-			{
-
-			}
+			product.AddFeature(feature);
 			
 			product.AddUIRef(WixUIRef.Custom);
 			product.AddProperty(new WixProperty("wixui_installdir", app_root.Id));
 
 			WixUpgrade upgrade = new WixUpgrade(product.GetTag().GetAttribute("UpgradeCode"));
-			upgrade.AddUpgradeVersion(new WixUpgradeVersion("0.0.0.1", true, Version, false));
+			upgrade.AddUpgradeVersion(new WixUpgradeVersion("0.0.0.1", true, buildConfig.Version, false));
 
 			product.AddUpgrade(upgrade);
 
@@ -275,7 +186,7 @@ namespace WixBuild
 
 		private void Light()
 		{
-			string outname = string.Format("{0}\\{1}.msi", Environment.CurrentDirectory, PackageFullTitle);
+			string outname = string.Format("{0}\\{1}.msi", Environment.CurrentDirectory, buildConfig.PackageFullTitle);
 			
 			ProcessStartInfo procinf = SetupProcess("light.exe");
 			procinf.Arguments = string.Format("-spdb -sice:ICE08 -o \"{0}\" -ext WixUIExtension *.wixobj", outname);
