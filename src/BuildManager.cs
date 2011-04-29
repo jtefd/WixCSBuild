@@ -169,10 +169,10 @@ namespace WixBuild
 
 		private void Candle()
 		{
-			string filename = string.Format("{0}\\main.wxs", build_dir.FullName);
+			string filename = Path.Combine(build_dir.FullName, "main.wxs");
 			SaveWxs(filename);
 
-			File.Copy(string.Format("{0}\\WixUI_Custom.wxs", BuildSession.Session.InstallDir.FullName), string.Format("{0}\\WixUI_Custom.wxs", build_dir.FullName));
+			File.Copy(Path.Combine(BuildSession.Session.InstallDir.FullName, "WixUI_Custom.wxs"), Path.Combine(build_dir.FullName, "WixUI_Custom.wxs"));
 
 			ProcessStartInfo procinf = SetupProcess("candle.exe");
 			procinf.Arguments = "*.wxs";
