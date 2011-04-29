@@ -10,7 +10,7 @@ namespace WixBuild
 	public class BuildManager
 	{		
 		private Wix wix;
-		private DirectoryInfo build_dir;
+		private DirectoryInfo buildDir;
 		private string name;
 
 		private BuildConfig buildConfig;
@@ -28,16 +28,16 @@ namespace WixBuild
 
 			name = dirinfo.Name;
 
-			build_dir = new DirectoryInfo(Environment.GetEnvironmentVariable("TMP")).CreateSubdirectory(WixUtil.MD5Sum(dirinfo.FullName));
+			buildDir = new DirectoryInfo(Environment.GetEnvironmentVariable("TMP")).CreateSubdirectory(WixUtil.MD5Sum(dirinfo.FullName));
 			
-			if (build_dir.Exists)
+			if (buildDir.Exists)
 			{
-				build_dir.Delete(true);
+				buildDir.Delete(true);
 			}
 			
-			build_dir.Create();
+			buildDir.Create();
 
-			Console.WriteLine("Using temporary directory: {0}", build_dir.FullName);
+			Console.WriteLine("Using temporary directory: {0}", buildDir.FullName);
 			
 			WixProduct product = new WixProduct(
 				buildConfig.PackageFullTitle,
@@ -87,13 +87,13 @@ namespace WixBuild
 
 				if (shortcut_file.Exists)
 				{
-					string id = "";
+					//string id = "";
 
 					foreach (XmlElement element in (app_root_ref.GetTag().SelectNodes("//File")))
 					{
 						if (element.GetAttribute("Source").ToUpper().Equals(shortcut_file.FullName.ToUpper()))
 						{
-							id = element.GetAttribute("Id");
+							//id = element.GetAttribute("Id");
 
 							WixShortcut shortcut = new WixShortcut(new FileInfo(buildConfig.Shortcut).Name, new FileInfo(buildConfig.Shortcut).Name, start_menu_dir.Id, "INSTALLDIR", false);
 
@@ -149,7 +149,7 @@ namespace WixBuild
 			ProcessStartInfo procinf = new ProcessStartInfo(command);
 			procinf.CreateNoWindow = true;
 			procinf.UseShellExecute = false;
-			procinf.WorkingDirectory = build_dir.FullName;
+			procinf.WorkingDirectory = buildDir.FullName;
 
 			if (BuildSession.Session.Verbose)
 			{
@@ -169,10 +169,10 @@ namespace WixBuild
 
 		private void Candle()
 		{
-			string filename = Path.Combine(build_dir.FullName, "main.wxs");
+			string filename = Path.Combine(buildDir.FullName, "main.wxs");
 			SaveWxs(filename);
 
-			File.Copy(Path.Combine(BuildSession.Session.InstallDir.FullName, "WixUI_Custom.wxs"), Path.Combine(build_dir.FullName, "WixUI_Custom.wxs"));
+			File.Copy(Path.Combine(BuildSession.Session.InstallDir.FullName, "WixUI_Custom.wxs"), Path.Combine(buildDir.FullName, "WixUI_Custom.wxs"));
 
 			ProcessStartInfo procinf = SetupProcess("candle.exe");
 			procinf.Arguments = "*.wxs";
@@ -186,7 +186,7 @@ namespace WixBuild
 
 		private void Light()
 		{
-			string outname = string.Format("{0}\\{1}.msi", Environment.CurrentDirectory, buildConfig.PackageFullTitle);
+			string outname = String.Format("{0}.msi", Path.Combine(Environment.CurrentDirectory, buildConfig.PackageFullTitle));
 			
 			ProcessStartInfo procinf = SetupProcess("light.exe");
 			procinf.Arguments = string.Format("-spdb -sice:ICE08 -o \"{0}\" -ext WixUIExtension *.wixobj", outname);
@@ -206,21 +206,21 @@ namespace WixBuild
 
 				while (flag)
 				{
-					bool inner_flag = false;
+					bool innerFlag = false;
 
 					if (p.StandardOutput.Peek() != -1)
 					{
 						Console.WriteLine(p.StandardOutput.ReadLine());
-						inner_flag = true;
+						innerFlag = true;
 					}
 
 					if (p.StandardError.Peek() != -1)
 					{
 						Console.Error.WriteLine(p.StandardError.ReadLine());
-						inner_flag = true;
+						innerFlag = true;
 					}
 
-					flag = inner_flag;
+					flag = innerFlag;
 				}
 				Console.Write(p.StandardOutput.ReadToEnd());
 				Console.Error.Write(p.StandardError.ReadToEnd());

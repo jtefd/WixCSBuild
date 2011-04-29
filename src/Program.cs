@@ -8,7 +8,7 @@ namespace WixBuild
 	/// <summary>
 	/// Summary description for Class1.
 	/// </summary>
-	class CommandLineMain
+	class Program
 	{
 		/// <summary>
 		/// The main entry point for the application.
@@ -75,25 +75,26 @@ namespace WixBuild
 
 		private static void ShowHelp()
 		{
+
 			string msg = @"WiXBuild - WiX Generator and Build Manager
  
  usage:	wixbuild.exe [/?] /source sourceDir /version versionNo /package packageName
   
-  /source			Specify directory of files to be used in the build
-  /version			Specify version number of the package
-  /package			Specify name of the package
-  /author			Specify author of the package
+  /source         Specify directory of files to be used in the build
+  /version        Specify version number of the package
+  /package        Specify name of the package
+  /author         Specify author of the package
 
-  /path				Add the installation directory to the user's PATH
+  /path           Add the installation directory to the user's PATH
 
-  /shortcut			Add the given file to the user's Start Menu as a shortcut
+  /shortcut       Add the given file to the user's Start Menu as a shortcut
 
-  /verbose			Show extra information
+  /verbose        Show extra information
 
-  /tc-build-num		When running under TeamCity, echo a service message to update the build number
+  /tc-build-num   When running under TeamCity, echo a service message to update the build number
 
 
-  /?				Show help (this page)
+  /?              Show help (this page)
 ";
 
 			Console.Error.WriteLine(msg);

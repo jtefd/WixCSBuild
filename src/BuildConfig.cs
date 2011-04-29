@@ -15,7 +15,6 @@ namespace WixBuild
 
 		public BuildConfig()
 		{
-			
 		}
 
 		public string PackageName
